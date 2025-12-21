@@ -4,7 +4,5 @@
 
 A system that detects fraudulent transactions in streaming data, using anomaly detection and alerting mechanisms. It processes live data feeds, apply machine learning models to flag suspicious activities, and integrate notifications via email/SMS.
 
-## Commands
 
-The Makefile contains the central entry points for common tasks related to this project.
 
