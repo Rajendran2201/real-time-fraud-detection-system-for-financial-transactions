@@ -6,9 +6,11 @@ import numpy as np
 from src.data.load import load_credit_card_data
 from src.data.preprocess import scale_and_persist
 
-DATA_DIR = Path('../data/processed')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent  
+DATA_DIR = PROJECT_ROOT / "data" / "processed"
+SCALER_DIR = PROJECT_ROOT / "models"
 
-@pytest.mark.parameterize("split", ["X_train", "X_val", "X_test", "y_train", "y_val", "y_test"])
+@pytest.mark.parametrize("split", ["X_train", "X_val", "X_test", "y_train", "y_val", "y_test"])
 def test_data_loading(split):
   """
   Check if processed parquet files can be loaded and are non-empty.
@@ -20,7 +22,7 @@ def test_data_loading(split):
   assert isinstance(df, pd.DataFrame), f"{split} is not a DataFrame"
 
 
-SCALER_DIR = Path('../models/')
+
 def test_scaling_consistency():
   """
   Test if scaling preserves shape and column names.
@@ -32,7 +34,7 @@ def test_scaling_consistency():
   X_train   = pd.read_parquet(DATA_DIR / "X_train.parquet")
   X_val   = pd.read_parquet(DATA_DIR / "X_val.parquet")
   X_test  = pd.read_parquet(DATA_DIR / "X_test.parquet")
-  scaler_path = Path(SCALER_DIR + "scaler.joblib")  
+  scaler_path = SCALER_DIR / "scaler.joblib"  
   X_train_scaled, X_val_scaled, X_test_scaled = scale_and_persist(X_train, X_val, X_test, scaler_path)
 
   # check shapes 
@@ -46,9 +48,9 @@ def test_scaling_consistency():
   assert list(X_test_scaled.columns) == list(X_test.columns), "Test columns changed after scaling"
 
   # check numeric values 
-  assert np.issubdtype(X_train_scaled.dtypes.values[0], np.number), "Non-numeric values in the training data"
-  assert np.issubdtype(X_val_scaled.dtypes.values[0], np.number), "Non-numeric values in the validation data"
-  assert np.isubdtype(X_test_scaled.dtypes.values[0], np.number), "Non-numeric values in the test data"
+  assert all(pd.api.types.is_numeric_dtype(dtype) for dtype in X_train_scaled.dtypes), "Non-numeric values in training data"
+  assert all(pd.api.types.is_numeric_dtype(dtype) for dtype in X_val_scaled.dtypes), "Non-numeric values in validation data"
+  assert all(pd.api.types.is_numeric_dtype(dtype) for dtype in X_test_scaled.dtypes), "Non-numeric values in test data"
 
   
 
