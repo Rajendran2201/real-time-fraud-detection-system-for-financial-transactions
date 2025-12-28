@@ -3,7 +3,7 @@
 #################################################################################
 
 PROJECT_NAME = real-time-fraud-detection-system-for-financial-transactions
-PYTHON_VERSION = 3.10
+PYTHON_VERSION = 3.11.7
 PYTHON_INTERPRETER = python
 
 #################################################################################

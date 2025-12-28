@@ -1,32 +1,68 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 
 [project]
-name = "real_time_fraud_detection_system_for_financial_transactions"
+name = "real-time-fraud-detection-system"
 version = "0.0.1"
-description = "A system that detects fraudulent transactions in streaming data, using anomaly detection and alerting mechanisms. It processes live data feeds, apply machine learning models to flag suspicious activities, and integrate notifications via email/SMS."
-authors = [
-  { name = "Rajendran S" },
-]
-license = { file = "LICENSE" }
+description = "A system that detects fraudulent transactions in streaming data using machine learning."
 readme = "README.md"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License"
-]
 requires-python = ">=3.10,<3.12"
+license = { file = "LICENSE" }
+
+authors = [
+  { name = "Rajendran S" }
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
 
 
+# -----------------------------
+# setuptools configuration
+# -----------------------------
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*", "notebooks*", "data*", "docs*"]
+
+
+# -----------------------------
+# pytest configuration
+# -----------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra -q"
+
+
+# -----------------------------
+# Ruff (linting + formatting)
+# -----------------------------
 [tool.ruff]
 line-length = 99
-src = ["real_time_fraud_detection_system_for_financial_transactions"]
-include = ["pyproject.toml", "real_time_fraud_detection_system_for_financial_transactions/**/*.py"]
+src = ["src"]
+target-version = "py311"
+include = ["pyproject.toml", "src/**/*.py", "tests/**/*.py"]
 
 [tool.ruff.lint]
-extend-select = ["I"]  # Add import sorting
+extend-select = ["I"]  # isort-style import sorting
 
 [tool.ruff.lint.isort]
-known-first-party = ["real_time_fraud_detection_system_for_financial_transactions"]
+known-first-party = ["src"]
 force-sort-within-sections = true
 
+
+# -----------------------------
+# Optional: Coverage (future)
+# -----------------------------
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*"]
