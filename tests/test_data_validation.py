@@ -5,7 +5,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-
 @pytest.mark.data
 def test_data_shapes():
     paths = [
