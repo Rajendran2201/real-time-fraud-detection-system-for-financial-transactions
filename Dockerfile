@@ -1,4 +1,7 @@
-# Dockerfile
+LABEL maintainer="asrajendrayadav@gmail.com"
+LABEL description="Real-time credit card fraud detection for financial transactions"
+LABEL version="1.0"
+
 # Use official slim Python image for smaller size and security
 FROM python:3.11-slim
 
