@@ -3,6 +3,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import json
+import os
 
 # Page config
 st.set_page_config(
@@ -14,9 +15,11 @@ st.set_page_config(
 st.title("🔒 Real-Time Credit Card Fraud Detection System")
 st.markdown("A system that detects fraudulent transactions in streaming data, using anomaly detection.")
 
-# API URL (change to your deployed URL later)
-API_URL = "http://localhost:8000"  # For local testing
-# When deployed, change to your public URL, e.g., https://your-api.onrender.com
+if st.runtime.exists():
+    API_URL = "http://api:8000"
+else:
+    API_URL = "http://localhost:8000"
+
 
 # Sidebar
 with st.sidebar:
