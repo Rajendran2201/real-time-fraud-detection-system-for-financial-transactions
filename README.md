@@ -2,7 +2,7 @@
 
 A system that detects fraudulent transactions in streaming data, using anomaly detection and alerting mechanisms. It processes live data feeds, apply machine learning models to flag suspicious activities, and integrate notifications via email/SMS.
 
-## Project Organization
+## Repo Structure
 
 ```
 ├── LICENSE            <- Open-source license if one is chosen
